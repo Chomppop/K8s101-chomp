@@ -1,0 +1,50 @@
+PS D:\820_k8s> kubectl apply -f .\sample.pod.yaml
+pod/client-pods created
+PS D:\820_k8s> kubectl get pods                  
+NAME          READY   STATUS    RESTARTS   AGE
+client-pods   1/1     Running   0          25s
+PS D:\820_k8s> kubectl delete all --all          
+pod "client-pods" deleted from default namespace
+service "kubernetes" deleted from default namespace
+PS D:\820_k8s> kubectl get pods        
+No resources found in default namespace.
+PS D:\820_k8s> kubectl get pods                  
+No resources found in default namespace.
+PS D:\820_k8s> kubectl apply -f .\client.deployment.yml
+deployment.apps/client-deployment created
+PS D:\820_k8s> kubectl get pods                        
+NAME                                 READY   STATUS    RESTARTS   AGE
+client-deployment-77659f7f9c-jwbcq   1/1     Running   0          11s
+client-deployment-77659f7f9c-knwcc   1/1     Running   0          11s
+client-deployment-77659f7f9c-tbgw8   1/1     Running   0          11s
+PS D:\820_k8s> kubectl get all 
+NAME                                     READY   STATUS    RESTARTS   AGE
+pod/client-deployment-77659f7f9c-jwbcq   1/1     Running   0          2m23s
+pod/client-deployment-77659f7f9c-knwcc   1/1     Running   0          2m23s
+pod/client-deployment-77659f7f9c-tbgw8   1/1     Running   0          2m23s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   5m15s
+
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/client-deployment   3/3     3            3           2m23s
+
+NAME                                           DESIRED   CURRENT   READY   AGE
+replicaset.apps/client-deployment-77659f7f9c   3         3         3       2m23s
+PS D:\820_k8s> kubectl delete pods client-deployment-77659f7f9c-tbgw8  \\ ลบ pods                                                                                                         
+pod "client-deployment-77659f7f9c-tbgw8" deleted from default namespace                                    
+PS D:\820_k8s> kubectl get all                                       
+NAME                                     READY   STATUS    RESTARTS   AGE
+pod/client-deployment-77659f7f9c-bcsg5   1/1     Running   0          5s   \\มีตัวใหม่สร้างแทนขึ้นมา
+pod/client-deployment-77659f7f9c-jwbcq   1/1     Running   0          5m10s
+pod/client-deployment-77659f7f9c-knwcc   1/1     Running   0          5m10s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   8m2s
+
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/client-deployment   3/3     3            3           5m10s
+
+NAME                                           DESIRED   CURRENT   READY   AGE
+replicaset.apps/client-deployment-77659f7f9c   3         3         3       5m10s
+PS D:\820_k8s> 
